@@ -2,11 +2,13 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
-resource "aws_instance" "example" {
-  ami = "ami-0f9a314ce79311c88"
-  instance_type = "t2.micro"
+terraform {
+  backend "s3" {
+    bucket = "terraform-up-and-running-state-2022-05-10"
+    key    = "global/s3/terraform.tfstate"
+    region = "ap-northeast-1"
 
-  tags = {
-    "Name" = "terraform-example"
+    dynamodb_table = "terraform-up-and-running-locks-2022-05-10"
+    encrypt        = true
   }
 }
